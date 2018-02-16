@@ -1,0 +1,51 @@
+@startuml
+
+title Scheduler-Bot - Use Case Diagram 
+
+left to right direction
+
+    :Service Customer: as SC <<Chat User>>
+    :Application Subscriber: as AS <<Admin>>
+
+rectangle "admin usecases" {  
+    (1. subscribe to application) as usecase1
+    (1.1 provide access to Google Calender) as usecase1.1
+    (1.2 create a subscriber defined Facebook chatbot) as usecase1.2
+    (1.3 select availability) as usecase1.3
+    (1.4 set service type eg. doctor, lawyer, barber) as usecase1.4
+    (1.4.1 add work packages with duration) as usecase1.5
+   
+ 
+    usecase1 .> usecase1.1 : include 
+    usecase1 .> usecase1.2 : include
+    usecase1 .> usecase1.3 : include
+    usecase1 .> usecase1.4 : include
+    usecase1.4 .> usecase1.5 : include
+
+}
+
+rectangle "customer usecases" {    
+    (2. ask for appointment) as usecase2
+    (2.1 return possible work packages) as usecase2.1
+    (3 select a work pakage) as usecase3
+    (3.1 return possible time slots) as usecase3.1
+    (4 select appointment) as usecase4
+    (4.1 send approval notification to admin) as usecase4.1 
+  (5 approve appointment) as usecase5
+
+     usecase2 .>  usecase2.1 : include
+     usecase3 .>  usecase3.1 : include
+     usecase4 .>  usecase4.1 : include
+ 
+}
+ 
+AS -- usecase1
+AS -- usecase5
+
+SC -- usecase2
+SC -- usecase3
+SC -- usecase4
+
+
+
+@enduml
