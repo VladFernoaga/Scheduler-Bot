@@ -1,0 +1,65 @@
+
+allprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+
+    group = 'ro.schedulerbot'
+    version = '1.0.0-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile('org.projectlombok:lombok:1.16.18')
+        compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+        
+        //LOG4J
+        compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.9.1'
+        compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.9.1'
+        
+        testCompile ('org.mockito:mockito-core:2.7.22') 
+       	testCompile ('junit:junit:4.12')
+       	//Test    
+   	testCompile ('org.springframework.boot:spring-boot-starter-test:1.5.10.RELEASE')
+    }
+
+    // Usage: gradlew [-Dtest.type=all|unit|integration] test
+    test {
+        String testType = System.properties['test.type']
+        if (testType == 'integration') {
+            include '**/*IntTest.*'
+            include '**/*IntSpec.*'
+        } else if (testType == 'unit') {
+            include '**/*Test.*'
+            include '**/*Spec.*'
+            exclude '**/*IntTest.*'
+            exclude '**/*IntSpec.*'
+        } else if (testType == 'all') {
+            include '**/*Test.*'
+            include '**/*Spec.*'
+        } else {
+            //Default to unit
+            include '**/*Test.*'
+            include '**/*Spec.*'
+            exclude '**/*IntTest.*'
+            exclude '**/*IntSpec.*'
+        }
+    }
+
+    // Usage: gradlew integrationTest
+    task integrationTest(type: Test, description: 'Runs the integration tests', group: 'Verification') {
+        include '**/*IntTest.*'
+        include '**/*IntSpec.*'
+    }
+}
+ext.exludeDefaultLogger = 
+{  	 
+	exclude group: "commons-logging", module: "commons-logging"
+    exclude module: "spring-boot-starter-logging"
+}

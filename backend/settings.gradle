@@ -1,0 +1,12 @@
+rootProject.name = 'schedulerbot-backend'
+include 'app-starter'
+include 'rest-controller'
+include 'bot-handler'
+include 'security'
+include 'persistence'
+include 'service'
+include 'messages-processor'
+
+rootProject.children.each {
+  it.buildFileName = it.name + '.gradle'
+}
